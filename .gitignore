@@ -1,0 +1,15 @@
+﻿*.o
+*.obj
+*.exe
+*.out
+*.elf
+*.hex
+*.bin
+test_runner
+build/
+bin/
+out/
+.vscode/
+.idea/
+CMakeCache.txt
+CMakeFiles/
