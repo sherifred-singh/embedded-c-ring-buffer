@@ -42,6 +42,18 @@ ring_buffer_status_t ring_buffer_reset(ring_buffer_t *rb) {
     return RING_BUFFER_OK;
 }
 
+ring_buffer_status_t ring_buffer_flush(ring_buffer_t *rb, size_t count) {
+    if (rb == NULL) {
+        return RING_BUFFER_ERROR_NULL;
+    }
+
+    size_t available = ring_buffer_get_count(rb);
+    size_t to_flush = (count > available) ? available : count;
+
+    rb->tail = (rb->tail + to_flush) & rb->mask;
+    return RING_BUFFER_OK;
+}
+
 ring_buffer_status_t ring_buffer_push(ring_buffer_t *rb, uint8_t data) {
     if (rb == NULL || rb->buffer == NULL) {
         return RING_BUFFER_ERROR_NULL;
@@ -86,15 +98,21 @@ ring_buffer_status_t ring_buffer_pop(ring_buffer_t *rb, uint8_t *data) {
 }
 
 ring_buffer_status_t ring_buffer_peek(const ring_buffer_t *rb, uint8_t *data) {
+    return ring_buffer_peek_at(rb, 0, data);
+}
+
+ring_buffer_status_t ring_buffer_peek_at(const ring_buffer_t *rb, size_t offset, uint8_t *data) {
     if (rb == NULL || rb->buffer == NULL || data == NULL) {
         return RING_BUFFER_ERROR_NULL;
     }
 
-    if (rb->head == rb->tail) {
+    size_t count = ring_buffer_get_count(rb);
+    if (offset >= count) {
         return RING_BUFFER_ERROR_EMPTY;
     }
 
-    *data = rb->buffer[rb->tail];
+    size_t peek_index = (rb->tail + offset) & rb->mask;
+    *data = rb->buffer[peek_index];
     return RING_BUFFER_OK;
 }
 

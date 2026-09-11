@@ -49,6 +49,28 @@ void test_push_pop_single(void) {
     printf("PASSED [OK]\n");
 }
 
+void test_flush_and_peek_offset(void) {
+    printf("[TEST] Flush & Multi-Offset Peek Operations... ");
+    ring_buffer_reset(&rb);
+
+    for (uint8_t i = 0; i < 10; i++) {
+        assert(ring_buffer_push(&rb, i + 10) == RING_BUFFER_OK);
+    }
+    assert(ring_buffer_get_count(&rb) == 10);
+
+    uint8_t val = 0;
+    assert(ring_buffer_peek_at(&rb, 4, &val) == RING_BUFFER_OK);
+    assert(val == 14); /* 5th element */
+
+    /* Flush 5 bytes */
+    assert(ring_buffer_flush(&rb, 5) == RING_BUFFER_OK);
+    assert(ring_buffer_get_count(&rb) == 5);
+    assert(ring_buffer_peek(&rb, &val) == RING_BUFFER_OK);
+    assert(val == 15);
+
+    printf("PASSED [OK]\n");
+}
+
 void test_wrap_around(void) {
     printf("[TEST] Wrap-Around & Modulo Masking... ");
     ring_buffer_reset(&rb);
@@ -107,17 +129,18 @@ void test_block_transfer(void) {
 
 int main(void) {
     printf("\n=======================================================\n");
-    printf(" C Embedded Ring Buffer -- Unit Test Suite\n");
+    printf(" 🚀 C Embedded Ring Buffer -- Unit Test Suite\n");
     printf("=======================================================\n\n");
 
     test_initialization();
     test_push_pop_single();
+    test_flush_and_peek_offset();
     test_wrap_around();
     test_overflow_protection();
     test_block_transfer();
 
     printf("\n=======================================================\n");
-    printf(" ALL UNIT TESTS PASSED SUCCESSFULLY! (5/5)\n");
+    printf(" 🎉 ALL UNIT TESTS PASSED SUCCESSFULLY! (6/6)\n");
     printf("=======================================================\n\n");
 
     return 0;
