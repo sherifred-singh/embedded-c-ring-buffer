@@ -1,6 +1,6 @@
 ﻿# ⚡ Embedded C Lock-Free Circular Ring Buffer
 
-[![C/C++ CI](https://github.com/Sherifred123/embedded-c-ring-buffer/actions/workflows/ci.yml/badge.svg)](https://github.com/Sherifred123/embedded-c-ring-buffer/actions/workflows/ci.yml)
+[![C/C++ CI](https://github.com/sherifred-singh/embedded-c-ring-buffer/actions/workflows/ci.yml/badge.svg)](https://github.com/sherifred-singh/embedded-c-ring-buffer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A lightweight, deterministic, and lock-free **FIFO Circular Ring Buffer** written in C99, optimized for resource-constrained microcontrollers (**Microchip PIC18**, **STM32 ARM Cortex-M**, **ESP32**).
@@ -88,3 +88,4 @@ make
 
 ## 📜 License
 Released under the [MIT License](LICENSE). Designed and maintained by **Sherifred Singh**.
+
